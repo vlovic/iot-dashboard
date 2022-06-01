@@ -9,4 +9,4 @@ def index():
 @app.route("/airgradient:dc8c38/measures", methods=['POST'])
 def update_graph():
     print(request.data)
-    return redirect(url_for('index'))
+    return ""
