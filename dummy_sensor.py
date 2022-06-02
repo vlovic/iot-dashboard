@@ -6,7 +6,7 @@ host = "localhost"
 port = "8000"
 
 while True: 
-    #make a POST request
+    # Make a POST request with a dict of random data every 2 seconds
     try: 
         dictToSend = {"wifi":-21,"pm02":random.randint(0, 10),"rco2":random.randint(0,100),"atmp":random.randint(0, 10),"rhum":random.randint(0,100)}
         res = requests.post("http://{host}:{port}/airgradient:dc8c38/measures".format(host=host, port=port), json=dictToSend)
