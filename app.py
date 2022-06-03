@@ -30,19 +30,28 @@ def update_db():
 
 
 def stream_data():
+    current_id = None
+    db = get_db()
+
     while True:
-        db = get_db()
+        if current_id is None:
+            current_id = db.execute("SELECT id FROM pm02 ORDER BY id DESC LIMIT 1;").fetchone()[0]
 
-        data = db.execute("SELECT * FROM pm02 ORDER BY id DESC LIMIT 1;").fetchone()
-        json_data = json.dumps(
-            {
-            "time": data[1],
-            "value": data[2]
-            }
-        )
+        id = db.execute("SELECT id FROM pm02 ORDER BY id DESC LIMIT 1;").fetchone()[0]
+        if id > current_id:
+            data = db.execute("SELECT * FROM pm02 ORDER BY id DESC LIMIT 1;").fetchone()
 
-        yield f"data:{json_data}\n\n"
-        time.sleep(1)
+            current_id = data[0]
+            json_data = json.dumps(
+                {
+                "time": data[1],
+                "value": data[2]
+                }
+            )
+
+            yield f"data:{json_data}\n\n"
+
+        time.sleep(0.5)
 
 @app.route("/stream")
 def stream():

@@ -13,4 +13,4 @@ while True:
 
     except requests.exceptions.ConnectionError:
         print("Could not establish a connection with http://{host}:{port}/".format(host=host, port=port))
-    time.sleep(2)
+    time.sleep(1)
